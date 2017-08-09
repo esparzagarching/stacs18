@@ -1,1 +1,54 @@
 \stefan{Temporary section for Stefan's stuff}
+
+For a given population protocol $\PP$, let 
+$S_\PP \colon \pop{Q_\PP} \rightarrow \set{0, 1, \bot}$ be given by
+$$S_\PP(C) = \begin{cases}
+         0 & \text{ if  every fair run starting in $C$ stabilizes to $0$, } \\
+         1 & \text{ if every fair run starting in $C$ stabilizes to $1$, } \\
+         \bot & \text{ otherwise. }
+         \end{cases}
+$$
+
+Let $\PP_1 = (Q, I, \delta_1, O_1)$ and $\PP_2 = (Q, I, \delta_2, O_2)$ 
+be two population protocols with identical states and identical initial states, 
+but potentially distinct transition relations and output functions. 
+We say $\PP_1$ and $\PP_2$ are \emph{compatible
+due to} some function $f \colon Q \rightarrow Q$, if for all $C, C' \in \pop{Q}$, 
+the following implication holds:
+	$$C \trans{*}_{P_1} C' \lor C \trans{*}_{P_2} C' 
+		\Longrightarrow S_{P_2}(f(C')) = S_{P_2}(C) \land S_{P_1}(f(C')) = S_{P_1}(C)$$
+
+\begin{lemma}
+	 Let $\PP_1, \ldots, \PP_m$ be a sequence of $m \geq 2$  
+	population protocols that are pairwise compatible due to some fixed function 
+	$f$.
+	Then there exists a protocol of size 
+	$\mathcal{O}\left(m \cdot  |Q| \right)$ that computes the 
+	disjunction $(\PP_1 \lor \ldots \lor \PP_m)$.
+\end{lemma}
+\begin{proof}
+	Define $(\PP_1 \lor \ldots \lor \PP_m) \defeq (Q, I, \delta, O)$ through 
+	\begin{itemize}
+		\item $Q \defeq \left(\bigcup_{i=1}^m Q_1 \times \set{i}\right)$
+		\item $I \defeq I_1 \times \set{1}$
+		\item $O((q, i)) \defeq O_{\PP_i}(q)$ for all $(q, i) \in Q$
+		\item For $(q, i), (r, j) \in Q$, define 
+			  $$\hat{\delta}((q, i), (r, j)) \defeq \bigcup_{k=1}^m 
+			  \set{(f(q), k), (f(r), k))}.$$
+			  For $(q, i), (r, j) \in Q$ with $i = j$, define 
+			  $$\widetilde{\delta}((q, i), (r, j)) \defeq \set{((q', i), (r', i)) 
+			  \colon (q', r') \in \delta_{\PP_i}(q, r)}.$$
+			  Then for every $(q, i), (r, j) \in Q$, the transition relation 
+			  $\delta$ is defined through
+			  $$
+			  \delta((q, i), (r, j)) \defeq 
+			  \begin{cases}
+			  	\hat{delta}((q, i), (r, j)) & \text{ if } i \neq j, \\
+			  	\widetilde{\delta}((q, i), (r, i)) \cup \hat{\delta}((q, i), (r, j)) & 
+			  	\text{ if } i = j \text{ and } O(q) \land O(r) = 0, \\
+			  	\widetilde{\delta}((q, i), (r, i)) & \text{ otherwise.}
+			  \end{cases}
+			  $$
+	\end{itemize}
+	[TODO: proof]
+\end{proof} 
