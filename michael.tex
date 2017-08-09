@@ -1,1 +1,74 @@
-\michael{Temporary section for Michael's stuff}
+\newcommand{\pn}{\mathcal{N}}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\pre}[1]{\ensuremath{{^\bullet #1}}}
+\newcommand{\post}[1]{\ensuremath{{#1^\bullet}}}
+\newcommand{\prepost}[1]{\ensuremath{{^\bullet {#1} ^\bullet}}}
+
+\michael{Adapt the theorem/proof to Petri nets with weights.}
+\begin{theorem}
+  Let $\pn = (P, T, F)$ be a Petri net, let $\vec{x}, \vec{y} \in
+  \N^P$ and let $\pi \in T^*$ be such that $\vec{x} \trans{\pi}
+  \vec{y}$. There exist $\vec{x}', \vec{y}' \in \N^P$ and $S = \{t_1,
+  t_2, \ldots, t_n\} \subseteq \supp{\pi}$ such that
+  \begin{itemize}
+  \item $\vec{x}' \trans{t_1^* t_2^* \cdots t_n^*} \vec{y}'$,
+
+  \item $\norm{\vec{x}'} \leq 2^n$,
+
+  \item $\supp{\vec{x}'} = \supp{\vec{x}}$, and 
+
+  \item $\supp{\vec{y}'} = \supp{\vec{x}} \cup \post{S}$.
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  Let $\vec{x}, \vec{y} \in \N^P$ and $\pi \in T^*$ be such that
+  $\vec{x} \trans{\pi} \vec{y}$. We prove the claim by induction on
+  $|\pi|$. If $|\pi| = 0$, then $\supp{\pi} = \emptyset$ and $\vec{x}
+  = \vec{y}$. Thus, the claim is satisfied by $S \defeq \emptyset$ and
+  the markings $\vec{x}'$ and $\vec{y}'$ such that for every $p \in P$,
+  $$
+  \vec{x}'(p) \defeq \vec{y}'(p) \defeq
+  \begin{cases}
+    1 & \text{if } p \in \supp{\vec{x}}, \\
+    0 & \text{otherwise}.
+  \end{cases}
+  $$ Assume that $|\pi| > 0$ and that the claim holds for sequences of
+  length less than $|\pi|$. There exist $\sigma \in T^*$, $t \in T$
+  and $\vec{z} \in \N^P$ such that $\pi = \sigma t$ and $\vec{x}
+  \trans{\sigma} \vec{z} \trans{t} \vec{y}$. By induction hypothesis,
+  there exist $\vec{x}'', \vec{z}'' \in \N^P$ and $U = \{t_1, t_2,
+  \ldots, t_m\} \subseteq \supp{\sigma}$ such that
+  \begin{itemize}
+  \item $\vec{x}'' \trans{t_1^* t_2^* \cdots t_m^*} \vec{z}''$,
+
+  \item $\norm{\vec{x}''} \leq 2^m$,
+
+  \item $\supp{\vec{x}''} = \supp{\vec{x}}$, and 
+
+  \item $\supp{\vec{z}''} = \supp{\vec{x}} \cup \post{U}$.
+  \end{itemize}
+  
+  If $t \in U$, we are done by taking $\vec{x}' \defeq \vec{x}''$,
+  $\vec{y}' \defeq \vec{z}''$ and $S \defeq U$. Thus, we may assume
+  that $t \not\in U$. Note that $\supp{\vec{z}} \subseteq
+  \supp{\vec{x}} \cup \post{U} = \supp{\vec{z}''}$. Thus, since $t$ is
+  enabled in $\vec{z}$, it is also enabled in $\vec{z}''$. Moreover,
+  we have $$2 \vec{x}'' \trans{t_1^* t_2^* \cdots t_m^*} 2
+  \vec{z}''.$$ Therefore, $2 \vec{x}'' \trans{t_1^* t_2^* \cdots
+    t_m^*} 2 \vec{z}'' \trans{t} (\vec{z}'' + \vec{w})$ for some
+  marking $\vec{w} \in \N^P$.  We claim that we are done by taking
+  $\vec{x}' \defeq 2 \vec{x}''$, $\vec{y}' \defeq \vec{z}'' + \vec{w}$
+  and $S \defeq U \cup \{t\}$. Let $n = |U|$. The first and third
+  properties of the claim clearly hold. The second property holds
+  since $$\norm{\vec{x}'} = 2 \cdot \norm{\vec{x}''} \leq 2 \cdot 2^m
+  = 2^{m+1} = 2^n.$$ Finally, the fourth proprety holds since
+  \begin{align*}
+    \supp{\vec{y}'}
+    &= \supp{\vec{z}'' + \vec{w}} \\
+    &= \supp{\vec{z}''} \cup \supp{\vec{w}} \\
+    &= \supp{\vec{x}} \cup \post{U} \cup \supp{\vec{w}} \\ 
+    &= \supp{\vec{x}} \cup \post{U} \cup \post{t}. \\ 
+    &= \supp{\vec{x}} \cup \post{S}.\qedhere
+  \end{align*}
+\end{proof}
