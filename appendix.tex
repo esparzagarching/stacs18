@@ -1,0 +1,22 @@
+\section{Typesetting instructions -- please read carefully}
+
+Please comply with the following instructions when preparing your
+article for a LIPIcs proceedings volume.
+\begin{itemize}
+\item Use pdflatex and an up-to-date LaTeX system.
+\item Use further LaTeX packages only if required. Avoid usage of packages like \verb+enumitem+, \verb+enumerate+, \verb+cleverref+. Keep it simple, i.e. use as few additional packages as possible.
+\item Add custom made macros carefully and only those which are needed in the article (i.e., do not simply add your convolute of macros collected over the years).
+\item Do not use a different main font. For example, the usage of the \verb+times+-package is forbidden.
+\item Provide full author names (especially with regard to the first name) in the \verb+\author+ macro and in the \verb+\Copyright+ macro.
+\item Fill out the \verb+\subjclass+ and \verb+\keywords+ macros. For the \verb+\subjclass+, please refer to the ACM classification at \url{http://www.acm.org/about/class/ccs98-html}.
+\item Take care of suitable linebreaks and pagebreaks. No overfull \verb+\hboxes+ should occur in the warnings log.
+\item Provide suitable graphics of at least 300dpi (preferrably in pdf format).
+\item Use the provided sectioning macros: \verb+\section+, \verb+\subsection+, \verb+\subsection*+, \verb+\paragraph+, \verb+\subparagraph*+, ... ``Self-made'' sectioning commands (for example, \verb+\noindent{\bf My+ \verb+subparagraph.}+ will be removed and replaced by standard LIPIcs style sectioning commands.
+\item Do not alter the spacing of the  \verb+lipics-v2016.cls+ style file. Such modifications will be removed.
+\item Do not use conditional structures to include/exclude content. Instead, please provide only the content that should be published -- in one file -- and nothing else.
+\item Remove all comments, especially avoid commenting large text blocks and using \verb+\iffalse+ $\ldots$ \verb+\fi+ constructions.
+\item Keep the standard style (\verb+plainurl+) for the bibliography as provided by the\linebreak \verb+lipics-v2016.cls+ style file.
+\item Use BibTex and provide exactly one BibTex file for your article. The BibTex file should contain only entries that are referenced in the article. Please make sure that there are no errors and warnings with the referenced BibTex entries.
+\item Use a spellchecker to get rid of typos.
+\item A manual for the LIPIcs style is available at \url{http://drops.dagstuhl.de/styles/lipics-v2016/lipics-v2016-authors/lipics-v2016-manual.pdf}.
+\end{itemize}
