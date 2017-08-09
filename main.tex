@@ -13,6 +13,13 @@
 
 \input{macros.sty}
 
+%% Temporary
+\usepackage{todonotes}
+\newcommand{\alert}[2][]{\todo[color=red, #1]{\tiny MB: \scriptsize #2}}
+\newcommand{\javier}[2][]{\todo[color=orange, #1]{\tiny MB: \scriptsize #2}}
+\newcommand{\michael}[2][]{\todo[color=cyan, #1]{\tiny JE: \scriptsize #2}}
+\newcommand{\stefan}[2][]{\todo[color=green, #1]{\tiny SJ: \scriptsize #2}}
+
 % Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Large Flocks of Small Birds\footnote{M. Blondin was supported by the Fonds de recherche du Quebec – Nature et technologies (FRQNT).}}
 % \titlerunning{} %optional, in case that the title is too long; the running title should fit into the top page column
@@ -91,5 +98,15 @@ We wish to thank...
 \clearpage
 \appendix
 \input{appendix}
+
+\clearpage
+\section{Javier's stuff}
+\input{javier}
+
+\section{Michael's stuff}
+\input{michael}
+
+\section{Stefan's stuff}
+\input{stefan}
 
 \end{document}
