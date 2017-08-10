@@ -3,30 +3,36 @@
 \newcommand{\pre}[1]{\ensuremath{{^\bullet #1}}}
 \newcommand{\post}[1]{\ensuremath{{#1^\bullet}}}
 \newcommand{\prepost}[1]{\ensuremath{{^\bullet {#1} ^\bullet}}}
+\theoremstyle{plain}
+\newtheorem{proposition}[theorem]{Proposition}
 
-\michael{Adapt the theorem/proof to Petri nets with weights.}
-\begin{theorem}
-  Let $\pn = (P, T, F)$ be a Petri net, let $\vec{x}, \vec{y} \in
+\begin{proposition}\label{prop:short:saturation}
+  Let $\pn = (P, T, W)$ be a Petri net, let $\vec{x}, \vec{y} \in
   \N^P$ and let $\pi \in T^*$ be such that $\vec{x} \trans{\pi}
-  \vec{y}$. There exist $\vec{x}', \vec{y}' \in \N^P$ and $S = \{t_1,
-  t_2, \ldots, t_n\} \subseteq \supp{\pi}$ such that
+  \vec{y}$. Let $c \defeq \norm{W} + 1$. There exist $\vec{x}',
+  \vec{y}' \in \N^P$ and $S \subseteq \{t_1, t_2, \ldots, t_n\} =
+  \supp{\pi}$ such that
   \begin{itemize}
-  \item $\vec{x}' \trans{t_1^* t_2^* \cdots t_n^*} \vec{y}'$,
+  \item $\vec{x}' \trans{t_1^{c^{n-1}} t_2^{c^{n-2}} \cdots\ t_n}
+    \vec{y}'$,
 
-  \item $\norm{\vec{x}'} \leq 2^n$,
+  \item $n \leq |\post{S}|$,
+
+  \item $\norm{\vec{x}'} \leq c^n$,
 
   \item $\supp{\vec{x}'} = \supp{\vec{x}}$, and 
 
   \item $\supp{\vec{y}'} = \supp{\vec{x}} \cup \post{S}$.
   \end{itemize}
-\end{theorem}
+\end{proposition}
 
 \begin{proof}
   Let $\vec{x}, \vec{y} \in \N^P$ and $\pi \in T^*$ be such that
   $\vec{x} \trans{\pi} \vec{y}$. We prove the claim by induction on
   $|\pi|$. If $|\pi| = 0$, then $\supp{\pi} = \emptyset$ and $\vec{x}
   = \vec{y}$. Thus, the claim is satisfied by $S \defeq \emptyset$ and
-  the markings $\vec{x}'$ and $\vec{y}'$ such that for every $p \in P$,
+  the markings $\vec{x}'$ and $\vec{y}'$ such that for every $p \in
+  P$,
   $$
   \vec{x}'(p) \defeq \vec{y}'(p) \defeq
   \begin{cases}
@@ -40,29 +46,39 @@
   there exist $\vec{x}'', \vec{z}'' \in \N^P$ and $U = \{t_1, t_2,
   \ldots, t_m\} \subseteq \supp{\sigma}$ such that
   \begin{itemize}
-  \item $\vec{x}'' \trans{t_1^* t_2^* \cdots t_m^*} \vec{z}''$,
+  \item $\vec{x}'' \trans{t_1^{c^{m-1}} t_2^{c^{m-2}} \cdots\ t_m}
+    \vec{z}''$,
 
-  \item $\norm{\vec{x}''} \leq 2^m$,
+  \item $m \leq |\post{U}|$,
+
+  \item $\norm{\vec{x}''} \leq c^m$,
 
   \item $\supp{\vec{x}''} = \supp{\vec{x}}$, and 
 
   \item $\supp{\vec{z}''} = \supp{\vec{x}} \cup \post{U}$.
   \end{itemize}
   
-  If $t \in U$, we are done by taking $\vec{x}' \defeq \vec{x}''$,
-  $\vec{y}' \defeq \vec{z}''$ and $S \defeq U$. Thus, we may assume
-  that $t \not\in U$. Note that $\supp{\vec{z}} \subseteq
+  If $\post{t} \subseteq \post{U}$, then $\post{S} = \post{U}$ and
+  hence we are done by taking $\vec{x}' \defeq \vec{x}''$ and
+  $\vec{y}' \defeq \vec{z}''$. Therefore, we may assume that $\post{t}
+  \not\subseteq \post{U}$. Note that $\supp{\vec{z}} \subseteq
   \supp{\vec{x}} \cup \post{U} = \supp{\vec{z}''}$. Thus, since $t$ is
   enabled in $\vec{z}$, it is also enabled in $\vec{z}''$. Moreover,
-  we have $$2 \vec{x}'' \trans{t_1^* t_2^* \cdots t_m^*} 2
-  \vec{z}''.$$ Therefore, $2 \vec{x}'' \trans{t_1^* t_2^* \cdots
-    t_m^*} 2 \vec{z}'' \trans{t} (\vec{z}'' + \vec{w})$ for some
-  marking $\vec{w} \in \N^P$.  We claim that we are done by taking
-  $\vec{x}' \defeq 2 \vec{x}''$, $\vec{y}' \defeq \vec{z}'' + \vec{w}$
-  and $S \defeq U \cup \{t\}$. Let $n = |U|$. The first and third
-  properties of the claim clearly hold. The second property holds
-  since $$\norm{\vec{x}'} = 2 \cdot \norm{\vec{x}''} \leq 2 \cdot 2^m
-  = 2^{m+1} = 2^n.$$ Finally, the fourth proprety holds since
+  we have $$c \cdot \vec{x}'' \trans{t_1^{c^m} t_2^{c^{m-1}} \cdots
+    t_m^c} c \cdot \vec{z}''.$$ Since $t$ consumes at most $c - 1$
+  tokens, we obtain $c \cdot \vec{x}'' \trans{t_1^{c^m} t_2^{c^{m-1}}
+    \cdots t_m^c} c \cdot \vec{z}'' \trans{t} (\vec{z}'' + \vec{w})$
+  for some marking $\vec{w} \in \N^P$.  We claim that we are done by
+  taking $\vec{x}' \defeq c \cdot \vec{x}''$ and $\vec{y}' \defeq
+  \vec{z}'' + \vec{w}$. Let $n \defeq m + 1$. The first property of
+  the claim holds since
+  $$c \cdot \vec{x}'' \trans{t_1^{c^{n-1}} t_2^{c^{n-2}} \cdots t_m^c
+    t} \vec{y}'.$$ The second property holds since $n = m + 1 \leq
+  |\post{U}| + 1 = |\post{S}|$. The third property holds since
+  $\norm{\vec{x}'} = c \cdot \norm{\vec{x}''} \leq c \cdot c^m =
+  c^{m+1} = c^n$. The fourth property holds since $\supp{\vec{x}'} =
+  \supp{c \cdot \vec{x}''} = \supp{\vec{x}''} =
+  \supp{\vec{x}}$. Finally, the fifth proprety holds since
   \begin{align*}
     \supp{\vec{y}'}
     &= \supp{\vec{z}'' + \vec{w}} \\
@@ -71,4 +87,63 @@
     &= \supp{\vec{x}} \cup \post{U} \cup \post{t}. \\ 
     &= \supp{\vec{x}} \cup \post{S}.\qedhere
   \end{align*}
+\end{proof}
+
+\begin{corollary}\label{prop:short:cover}
+  Let $\pn = (P, T, W)$ be a Petri net, let $\vec{x}, \vec{y} \in
+  \N^P$, let $c \defeq \norm{W} + 1$ and let $d \defeq \norm{y}$. If
+  $\vec{y}$ is coverable from $\vec{x}$, then $\vec{y}$ is coverable
+  from some $\vec{x}' \in \N^P$ such that $\supp{\vec{x}'} =
+  \supp{\vec{x}}$ and $\norm{\vec{x}'} \leq d \cdot c^{|P|}$, through
+  a sequence $\pi$ of length less than $d \cdot c^{|P|}$.
+\end{corollary}
+
+\begin{proof}
+  Assume $\vec{y}$ is coverable from $\vec{x}$. There exists some
+  marking $\vec{w} \geq \vec{y}$ such that $\vec{x} \trans{*}
+  \vec{w}$. By Proposition~\ref{prop:short:saturation}, there exist
+  $\vec{v}, \vec{w}' \in \N^P$ and $S = \{t_1, t_2, \ldots, t_n\}
+  \subseteq T$ such that
+  \begin{itemize}
+  \item $\vec{v} \trans{t_1^{c^{n-1}} t_2^{c^{n-2}} \cdots\ t_n}
+    \vec{w}'$,
+
+  \item $n \leq |\post{S}| \leq |P|$,
+
+  \item $\norm{\vec{v}} \leq c^n$,
+
+  \item $\supp{\vec{v}} = \supp{\vec{x}}$, and 
+
+  \item $\supp{\vec{w}'} = \supp{\vec{x}} \cup \post{S}$.
+  \end{itemize}
+
+  Let $\vec{x}' \defeq d \cdot \vec{v}$, $\vec{y}' \defeq d \cdot
+  \vec{w}'$, and $\pi \defeq t_1^{d \cdot c^{n-1}} t_2^{d \cdot
+    c^{n-2}} \cdots\ t_n^{d}$. We have $\vec{x}' \trans{\pi}
+  \vec{y}'$, $\supp{\vec{x}'} = \supp{\vec{v}} = \supp{\vec{x}}$ and
+  $\norm{\vec{x}'} \leq d \cdot c^n$. Moreover, we have $\vec{y} \leq
+  \vec{y}'$ since $\supp{\vec{y}} \subseteq \supp{\vec{w}} \subseteq
+  \supp{\vec{x}} \cup \post{S} = \supp{\vec{w}'} = \supp{\vec{y}'}$
+  and $\vec{y}'(p) \geq d$ for every $p \in \supp{\vec{y}'}$. To
+  conclude the proof, observe that $|\pi| < d \cdot c^n$.
+\end{proof}
+
+\begin{theorem}
+  Any ``agents know''-population protocol computing the predicate $x
+  \geq c$ has at least $\log_3 c$ states.
+\end{theorem}
+
+\begin{proof}
+  Let $\PP = (Q, T, \Sigma, I, O)$ be an ``agents know''-population
+  protocol computing the predicate $x \geq c$. Let $R \subseteq Q$ be
+  the set of ``know-states''. Let $\pn = (Q, T, W)$ be the Petri net
+  associated to $\PP$. There exists $\vec{y} \in \N^Q$ such that
+  $\multiset{c \cdot x} \trans{*} \vec{y}$ and $\vec{y}(q) \geq 1$ for
+  some $q \in R$. Note that $\norm{W} \leq 2$. Thus, by
+  Corollary~\ref{prop:short:cover}, there exist $\lambda \leq 3^{|Q|}$
+  and $\vec{y}' \geq \vec{y}$ such that $\multiset{\lambda \cdot x}
+  \trans{*} \vec{y}'$. Since $\vec{y}' \geq \vec{y}$, $\PP$ stabilizes
+  to true on input $\multiset{\lambda \cdot x}$. This implies that
+  $\lambda \geq c$ and hence that $3^{|Q|} \geq c$. Therefore, $|Q|
+  \geq \log_3 c$.
 \end{proof}
