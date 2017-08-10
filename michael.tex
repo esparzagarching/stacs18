@@ -63,14 +63,15 @@
   $\vec{y}' \defeq \vec{z}''$. Therefore, we may assume that $\post{t}
   \not\subseteq \post{U}$. Note that $\supp{\vec{z}} \subseteq
   \supp{\vec{x}} \cup \post{U} = \supp{\vec{z}''}$. Thus, since $t$ is
-  enabled in $\vec{z}$, it is also enabled in $\vec{z}''$. Moreover,
-  we have $$c \cdot \vec{x}'' \trans{t_1^{c^m} t_2^{c^{m-1}} \cdots
-    t_m^c} c \cdot \vec{z}''.$$ Since $t$ consumes at most $c - 1$
-  tokens, we obtain $c \cdot \vec{x}'' \trans{t_1^{c^m} t_2^{c^{m-1}}
-    \cdots t_m^c} c \cdot \vec{z}'' \trans{t} (\vec{z}'' + \vec{w})$
-  for some marking $\vec{w} \in \N^P$.  We claim that we are done by
-  taking $\vec{x}' \defeq c \cdot \vec{x}''$ and $\vec{y}' \defeq
-  \vec{z}'' + \vec{w}$. Let $n \defeq m + 1$. The first property of
+  enabled in $\vec{z}$ and since $t$ consumes at most $c - 1$ tokens,
+  it is also enabled in $(c - 1) \cdot \vec{z}''$. Moreover, we
+  have $$c \cdot \vec{x}'' \trans{t_1^{c^m} t_2^{c^{m-1}} \cdots
+    t_m^c} c \cdot \vec{z}''.$$ We obtain $c \cdot \vec{x}''
+  \trans{t_1^{c^m} t_2^{c^{m-1}} \cdots t_m^c} c \cdot \vec{z}''
+  \trans{t} (\vec{z}'' + \vec{w})$ for some $\vec{w} \in \N^P$.  We
+  claim that we are done by taking $S \defeq \{t_1, t_2, \ldots, t_n,
+  t\}$, $\vec{x}' \defeq c \cdot \vec{x}''$ and $\vec{y}' \defeq
+  \vec{z}'' + \vec{w}$. Let $n \defeq |S|$. The first property of
   the claim holds since
   $$c \cdot \vec{x}'' \trans{t_1^{c^{n-1}} t_2^{c^{n-2}} \cdots t_m^c
     t} \vec{y}'.$$ The second property holds since $n = m + 1 \leq
@@ -129,21 +130,62 @@
 \end{proof}
 
 \begin{theorem}
-  Any ``agents know''-population protocol computing the predicate $x
-  \geq c$ has at least $\log_3 c$ states.
+  Let $\PP$ be an ``agents know''-population protocol without
+  leader. If $\PP$ computes the predicate $x \geq c$, then $\PP$ has
+  at least $\log_3 c$ states.
 \end{theorem}
 
 \begin{proof}
-  Let $\PP = (Q, T, \Sigma, I, O)$ be an ``agents know''-population
-  protocol computing the predicate $x \geq c$. Let $R \subseteq Q$ be
-  the set of ``know-states''. Let $\pn = (Q, T, W)$ be the Petri net
-  associated to $\PP$. There exists $\vec{y} \in \N^Q$ such that
-  $\multiset{c \cdot x} \trans{*} \vec{y}$ and $\vec{y}(q) \geq 1$ for
-  some $q \in R$. Note that $\norm{W} \leq 2$. Thus, by
+  Assume $\PP = (Q, T, \Sigma, I, O)$ computes the predicate $x \geq
+  c$. Let $R \subseteq Q$ be the set of ``know-states'' of $\PP$. Let
+  $\pn = (Q, T, W)$ be the Petri net associated to $\PP$. There exists
+  $q \in R$ such that $\multiset{q}$ is coverable from $\multiset{c
+    \cdot x}$ in $\pn$. Note that $\norm{W} \leq 2$. Thus, by
   Corollary~\ref{prop:short:cover}, there exist $\lambda \leq 3^{|Q|}$
-  and $\vec{y}' \geq \vec{y}$ such that $\multiset{\lambda \cdot x}
-  \trans{*} \vec{y}'$. Since $\vec{y}' \geq \vec{y}$, $\PP$ stabilizes
-  to true on input $\multiset{\lambda \cdot x}$. This implies that
-  $\lambda \geq c$ and hence that $3^{|Q|} \geq c$. Therefore, $|Q|
-  \geq \log_3 c$.
+  and a marking $\vec{y} \geq \multiset{q}$ such that
+  $\multiset{\lambda \cdot x} \trans{*} \vec{y}$. Since $\vec{y}(q) >
+  0$, $\PP$ stabilizes to true on input $\multiset{\lambda \cdot
+    x}$. This implies that $\lambda \geq c$ and hence that $3^{|Q|}
+  \geq c$. Therefore, $|Q| \geq \log_3 c$.
 \end{proof}
+
+\begin{theorem}
+  Let $\PP$ be an ``agents know''-population protocol with leader. If
+  $\PP$ computes the predicate $x \geq c$, then $\PP$ has at least
+  $(\log \log(c / 2) / (k \cdot 3^{1 / k}))^{k / (k + 1)}$ states for
+  every $k \in \N_{>0}$. \michael{We could also fix $k = 1$ and simply
+    have a square root. Depends how precise vs. cryptic we want to
+    be.}
+\end{theorem}
+
+\begin{proof}
+  Assume $\PP = (Q, T, \Sigma, I, O)$ computes the predicate $x \geq
+  c$. Let $R \subseteq Q$ be the set of ``know-states'' of $\PP$. Let
+  $\pn = (Q, T, W)$ be the Petri net associated to $\PP$. There exist
+  $p, q \in Q$ and $r \in R$ such that $\multiset{q, r}$ is coverable
+  from $\multiset{p, c \cdot x}$. By~\cite{Rac78}, if a marking
+  $\vec{y}$ is coverable from a marking $\vec{x}$, then it is
+  coverable from a sequence of length at most $2^{{(3 \cdot |Q| \cdot
+      \log \norm{\vec{y}})}^{|Q| \cdot \log
+      \norm{\vec{y}}}}$. Therefore, there exist $\pi \in T^*$ and
+  $\vec{z} \geq \multiset{q, r}$ such that $\multiset{p, c \cdot x}
+  \trans{\pi} \vec{z}$ and $|\pi| \leq 2^{(3 \cdot |Q|)^{|Q|}}$.
+
+  We claim that $c \leq 2 \cdot |\pi|$. For the sake of contradiction,
+  assume that $c > 2 \cdot |\pi|$. Note that $\pi$ consumes at most $2
+  \cdot |\pi|$ tokens from place $x$. Therefore, $\pi$ is enabled at
+  $\multiset{p, (c - 1) \cdot x}$. Let $\vec{z}' \defeq \vec{z} -
+  \multiset{x}$. We obtain $\multiset{p, (c-1) \cdot x} \trans{\pi}
+  \vec{z}'$. Since $x \not\in R$, we have $\vec{z}'(q) > 0$. Thus,
+  $\PP$ stabilizes to true from $\multiset{p, (c-1) \cdot x}$, which
+  is a contradiction.
+
+  Therefore, $c \leq 2 \cdot |\pi| \leq 2 \cdot 2^{(3 \cdot
+    |Q|)^{|Q|}} = 2 \cdot 2^{2^{|Q| \cdot \log(3 \cdot |Q|)}}$. This
+  implies that $\log \log (c / 2) \leq |Q| \cdot \log(3 \cdot
+  |Q|)$. Let $k \in \N_{>0}$. Note that $\log(3 \cdot |Q|) \leq k
+  \cdot (3 \cdot |Q|)^{1 / k}$. Thus, we have $(\log \log(c / 2) / (k
+  \cdot 3^{1 / k}))^{k / (k + 1)} \leq |Q|$.
+\end{proof}
+
+
