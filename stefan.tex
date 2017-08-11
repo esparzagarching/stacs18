@@ -1,5 +1,7 @@
 \stefan{Temporary section for Stefan's stuff}
+\newcommand{\revtrans}{\leftrightsquigarrow}
 
+\subsection{Successive Disjunction}
 For a given population protocol $\PP$, let 
 $S_\PP \colon \pop{Q_\PP} \rightarrow \set{0, 1, \bot}$ be given by
 $$S_\PP(C) = \begin{cases}
@@ -54,3 +56,77 @@ the following implications hold:
 	\end{itemize}
 	[TODO: proof]
 \end{proof} 
+
+\subsection*{Simulating k-way-interaction}
+Let $\PP_1=(Q_1, \delta_1, I_1, O_1)$, $\PP_2=(Q_2, \delta_2, I_2, O_2)$ 
+be two well-specified population protocols. We say $\PP_2$ 
+\emph{simulates} $\PP_1$ if the following conditions hold:
+\begin{enumerate}
+	\item $Q_1 \subseteq Q_2$
+	\item $I_1 = I_2$
+	\item $\forall q \in Q_1 \colon O_1(q_1) = O_2(q_2)$
+	\item $\forall C, C' \in \pop{Q_1} \colon 
+	       C \trans{*}_1 C' \Leftrightarrow C \trans{*}_2 C'$
+	\item $\forall C \in \pop{Q_1}, C' \in \pop{Q_2} \colon 
+	       C \trans{*}_2 C' \Rightarrow \exists C'' \in \pop{Q_1} 
+	       \colon C' \trans{*}_2 C'' \land C \trans{*}_1 C''$
+\end{enumerate}
+
+In the original model, agents interact in pairs of two. 
+For a given integral $k\geq 2$, we introduce the extension of 
+$k$-way-protocols where a simultaneous interaction between up to $k$ agents 
+may occur, i.e. the transitions of a $k$-way protocol are of the form
+$$q_1, q_2, \ldots, q_j \mapsto q_1', q_2', \ldots, q_j' 
+  \text{ where } 2 \leq j \leq k$$
+\begin{lemma}
+	Let $k \geq 3$.
+	For every well-specified $k$-way protocol $\PP= (Q, \delta, I, O)$ 
+	there exists a well-specified $2$-way protocol of size 
+	$\mathcal{O}(k \cdot |Q| \cdot |\delta|)$ that simulates $\PP$.
+\end{lemma}
+\begin{proof}
+	Let $k \geq 3$ and let $\PP = (Q, \delta, I, O)$ be a $k$-way protocol with 
+	transitions $\{t_1, \ldots, t_m\} = \delta$. 
+	For every transition $t$ in $\delta$ of the form 
+	$q_1, \ldots, q_j \mapsto r_1, \ldots, r_j$ where $j \geq 2$ 
+	we add 'disabled' states $D^t \defeq \set{d^t_{1}, \ldots d^t_{{j-2}}}$, 
+	'active' states $A^t \defeq \set{a^t_{1}, \ldots, a^t_{{j-1}}}$ and 
+	'backwards' states $B^t \defeq \set{b^t_{2}, \ldots, b^t_{j-1}}$.
+
+	We replace $t$ by the following set of pairwise interactions $\delta'^t$:
+	\begin{align*}
+		q_1, q_2 & \revtrans  d^t_{1}, a^t_{2} \\
+		a^t_{l}, q^t_{l+1} & \revtrans  d^t_{l}, a^t_{l+1} \text{ for all } 2 \leq l \leq (n-2) \\
+		a^t_{n-1}, q^t_{n} & \mapsto b^t_{n-1}, r_{n} \\
+		d^t_l, b^t_{l+1} & \mapsto b^t_l, r^t_{l+1}  \text{ for all } 2 \leq l \leq (n-2) \\
+		d^t_1, b^t_2 & \mapsto r_1, r_2
+	\end{align*}
+	The $k$-way interaction defined by $t$ can be simulated through the following 
+	sequence of pairwise interactions from $\delta'^t$:
+	\begin{align*}
+	 \multiset{q_1, \ldots, q_n} & \trans{} \multiset{d^t_1, a^t_2, q_3, \ldots, q_n} \\
+	                             & \trans{} \multiset{d^t_1, d^t_2, a_3, q_4, \ldots, q_n} \\
+	                             & \trans{} \vdots \\
+	                             & \trans{} \multiset{d^t_1, \ldots, d^t_{n-2}, a^t_{n-1}, q_n} \\
+	                             & \trans{} \multiset{d^t_1, \ldots, d^t_{n-2}, b^t_{n-1}, r_n} \\
+	                             & \trans{} \multiset{d^t_1, \ldots, d^t_{n-3}, b^t_{n-2}, r^t_{n-1}, r_n} \\
+	                             & \trans{} \vdots \\
+	                             & \trans{} \multiset{d^t_1, b^t_2, r_3, \ldots, r_n} \\
+	                             & \trans{} \multiset{r_1, \ldots, r_n}
+	\end{align*}
+	Now let $\PP' =(Q', \delta', I, O')$ with
+	\begin{itemize}
+		\item $Q' \defeq Q \cup \bigcup_{t \in \delta} (D^t \cup A^t \cup B^t)$
+		\item $\delta' \defeq \bigcup_{t \in \delta} \delta'^t$
+		\item $O'(q) \defeq O(q)$ for all $q \in Q$.
+
+		      For all 
+		      $t \in \delta, t \colon q_1, \ldots, q_j \mapsto r_1, \ldots, r_j$, let
+		      \begin{align*}
+		      O(d^t_l) & \defeq O(q_l) \text{ for all } l \in \set{1, \ldots, j-1}, \\
+		      O(a^t_l) & \defeq O(q_l) \text{ for all } l \in \set{2, \ldots, j-1}, \\
+		      O(b^t_l) & \defeq O(r_l) \text{ for all } l \in \set{2, \ldots, j-1}.	      
+		      \end{align*}
+	\end{itemize}
+	We claim that $\PP'$ simulates $\PP$.
+\end{proof}
