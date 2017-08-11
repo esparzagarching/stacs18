@@ -15,10 +15,10 @@ but potentially distinct transition relations and output functions.
 We say $\PP_1$ and $\PP_2$ are \emph{disjunctive} if for all $C, C' \in \pop{Q}$
 the following implications hold:
 \begin{itemize}
-	\item $C \trans{}_{P_1} C' \Longrightarrow S_{P_2}(C') \geq S_{P_2}(C) \land
-	       S_{P_2}(C') \leq \text{max}(S_{P_1}(C), S_{P_2}(C))$
-	\item $C \trans{}_{P_2} C' \Longrightarrow S_{P_1}(C') \geq S_{P_1}(C) \land
-	       S_{P_1}(C') \leq \text{max}(S_{P_2}(C), S_{P_1}(C))$
+	\item $C \trans{}_{P_1} C' \Longrightarrow
+	       S_{P_2}(C) \leq S_{P_2}(C') \leq \text{max}(S_{P_1}(C), S_{P_2}(C))$
+	\item $C \trans{}_{P_2} C' \Longrightarrow 
+	       S_{P_1}(C) \leq S_{P_1}(C') \leq \text{max}(S_{P_2}(C), S_{P_1}(C))$
 \end{itemize}
 
 \begin{lemma}
