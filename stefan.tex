@@ -24,7 +24,7 @@ the following implications hold:
 \begin{lemma}
 	 Let $\PP_1, \ldots, \PP_m$ be a sequence of $m \geq 2$  
 	pairwise disjunctive population protocols of size $n$.
-	Then there exists a protocol of size 
+	There exists a protocol of size 
 	$\mathcal{O}\left(m \cdot  n \right)$ that computes the 
 	disjunction $(\PP_1 \lor \ldots \lor \PP_m)$.
 \end{lemma}
@@ -36,7 +36,7 @@ the following implications hold:
 		\item $O((q, i)) \defeq O_{\PP_i}(q)$ for all $(q, i) \in Q$
 		\item For $(q, i), (r, j) \in Q$, define 
 			  $$\hat{\delta}((q, i), (r, j)) \defeq \bigcup_{k=1}^m 
-			  \set{(q, k), (r, k))}.$$
+			  \set{((q, k), (r, k))}.$$
 			  For $(q, i), (r, j) \in Q$ with $i = j$, define 
 			  $$\widetilde{\delta}((q, i), (r, j)) \defeq \set{((q', i), (r', i)) 
 			  \colon (q', r') \in \delta_{\PP_i}(q, r)}.$$
