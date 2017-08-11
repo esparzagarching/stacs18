@@ -190,11 +190,24 @@
 
 \begin{theorem}
   For every $n \in \N$, there exists an ``agents know''-population
-  protocol with leader that has at most $14n + 10 + (?)$ \michael{Add
-    the number of extra states added to the construction.} states, and
-  that computes the predicate $x \geq 2^{2^n}$.
+  protocol with two leaders that has $14n + 12$ states, and that
+  computes the predicate $x \geq 2^{2^n}$.
 \end{theorem}
 
 \begin{proof}
-  Use~\cite[Lemma~6 and~8]{MM82}.\michael{To be written.}
+  We build a population protocol based on a construction of Mayr and
+  Meyer. Let $n \in \N$. In~\cite[Sect.~6]{MM82}, Mayr and Meyer
+  described a \emph{reversible} Petri net $\pn_n = (P_n, T_n, W_n)$
+  satisfying the following properties:
+  \begin{enumerate}
+    \item $|P_n| = 14n + 10$, $|T_n| = 20n + 8$ and $1 \leq \norm{W_n} \leq 5$,
+    \item $\{b, c, f, s\} \subseteq P_n$, and
+    \item $\multiset{c, s} \trans{*} \vec{y}$ and $\vec{y}(f) > 0$ if
+      and only if $\vec{y} = \{c, f, b^{2^{2^n}}\}$ (by~\cite[Lemma~6
+        and~8]{MM82}).
+  \end{enumerate}
+
+  Note that $\pn_n$ is not a population protocol since some
+  transitions consume or produce extra tokens.\michael{To be
+    completed.}
 \end{proof}
