@@ -6,6 +6,15 @@
 \theoremstyle{plain}
 \newtheorem{proposition}[theorem]{Proposition}
 
+Current notation:
+\begin{itemize}
+  \item $\norm{\vec{x}}$ and $\norm{W}$ denote respectively the
+    largest absolute value that occurs in $\vec{x}$ and $W$.
+
+  \item $\supp{\vec{x}} = \{p \in P : \vec{x}(p) > 0\}$ and $\supp{t_1
+    t_2 \cdots t_n} = \{t_i : 1 \leq i \leq n\}$.
+\end{itemize}
+
 \begin{proposition}\label{prop:short:saturation}
   Let $\pn = (P, T, W)$ be a Petri net, let $\vec{x}, \vec{y} \in
   \N^P$ and let $\pi \in T^*$ be such that $\vec{x} \trans{\pi}
@@ -189,25 +198,44 @@
 \end{proof}
 
 \begin{theorem}
-  For every $n \in \N$, there exists an ``agents know''-population
-  protocol with two leaders that has $14n + 12$ states, and that
-  computes the predicate $x \geq 2^{2^n}$.
+  For every $n \in \N$, there exist $c \geq 2^{2^n}$ and an ``agents
+  know''-population protocol with two leaders that has $14n + 12$
+  state, and that computes the predicate $x \geq c$.
 \end{theorem}
 
 \begin{proof}
   We build a population protocol based on a construction of Mayr and
   Meyer. Let $n \in \N$. In~\cite[Sect.~6]{MM82}, Mayr and Meyer
-  described a \emph{reversible} Petri net $\pn_n = (P_n, T_n, W_n)$
+  describe a \emph{reversible} Petri net $\pn_n = (P_n, T_n, W_n)$
   satisfying the following properties:
   \begin{enumerate}
     \item $|P_n| = 14n + 10$, $|T_n| = 20n + 8$ and $1 \leq \norm{W_n} \leq 5$,
-    \item $\{b, c, f, s\} \subseteq P_n$, and
-    \item $\multiset{c, s} \trans{*} \vec{y}$ and $\vec{y}(f) > 0$ if
-      and only if $\vec{y} = \{c, f, b^{2^{2^n}}\}$ (by~\cite[Lemma~6
-        and~8]{MM82}).
+    \item $\{q_b, q_c, q_f, q_s\} \subseteq P_n$, and
+    \item $\multiset{q_c, q_s} \trans{*} \vec{y}$ and $\vec{y}(q_f) >
+      0$ if and only if $\vec{y} = \multiset{q_c, q_f, q_b^{2^{2^n}}}$
+      (by~\cite[Lemma~6 and~8]{MM82}).
   \end{enumerate}
 
-  Note that $\pn_n$ is not a population protocol since some
-  transitions consume or produce extra tokens.\michael{To be
-    completed.}
+  Let $\PP_n = (Q_n, S_n, \{x\}, I_n, O_n)$ be the $5$-way population protocol
+  such that
+  \begin{align*}
+    Q_n &\defeq P_n \cup \{q_\text{fresh}, q_\text{used}\}, \\
+    \Sigma &\defeq \{x\}, \\
+    S_n &\defeq S_n' \cup \{q_f, r \mapsto q_f, q_f : r \in Q_n\}, \\
+    I_n &\defeq x \mapsto q_\text{fresh}, \text{ and} \\
+    O_n &\defeq q_f \mapsto 1, r \mapsto 0 \text{ for every
+    } r \not= q_f.
+  \end{align*}
+  The subset of transitions $S_n'$ is obtained by making $T_n$ 5-way
+  with $q_\text{fresh}$ and $q_\text{used}$. For example, a transition
+  of $T_n$ which consumes a token from $p$ and $q$, and produces three
+  tokens into $r$, is replaced in $S_n'$ by the transition $(p, q,
+  q_\text{fresh}, q_\text{fresh}, q_\text{fresh}) \mapsto (r, r, r,
+  q_\text{used}, q_\text{used})$.
+
+  Let us first show that $\PP_n$ is well-specified... Let $c \in \N$
+  be the smallest number such that $\PP$ stabilizes to true from
+  $\multiset{c \cdot x}$. We claim that $\PP_n$ computes the predicate
+  $x \geq c$... It remains to show that $c \geq
+  2^{2^n}$...\michael{Gaps to be filled.}
 \end{proof}
