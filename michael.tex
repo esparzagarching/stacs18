@@ -11,8 +11,8 @@ Current notation:
   \item $\norm{\vec{x}}$ and $\norm{W}$ denote respectively the
     largest absolute value that occurs in $\vec{x}$ and $W$.
 
-  \item $\supp{\vec{x}} = \{p \in P : \vec{x}(p) > 0\}$ and $\supp{t_1
-    t_2 \cdots t_n} = \{t_i : 1 \leq i \leq n\}$.
+  \item $\supp{\vec{x}} \defeq \{p \in P : \vec{x}(p) > 0\}$ and
+    $\supp{t_1 t_2 \cdots t_n} \defeq \{t_i : 1 \leq i \leq n\}$.
 \end{itemize}
 
 \begin{proposition}\label{prop:short:saturation}
@@ -198,44 +198,66 @@ Current notation:
 \end{proof}
 
 \begin{theorem}
-  For every $n \in \N$, there exist $c \geq 2^{2^n}$ and an ``agents
-  know''-population protocol with two leaders that has $14n + 12$
-  state, and that computes the predicate $x \geq c$.
+  For every $n \in \N$, there exist $c \geq 2^{2^n}$ and a 5-way
+  \michael{Turn 5-way into 2-way once we have a lemma for this.}
+  ``agents know''-population protocol with two leaders that has $14n +
+  11$ states, and that computes the predicate $x \geq c$.
 \end{theorem}
 
 \begin{proof}
   We build a population protocol based on a construction of Mayr and
   Meyer. Let $n \in \N$. In~\cite[Sect.~6]{MM82}, Mayr and Meyer
-  describe a \emph{reversible} Petri net $\pn_n = (P_n, T_n, W_n)$
+  describe a \emph{reversible} Petri net $\pn = (P, T, W)$
   satisfying the following properties:
   \begin{enumerate}
-    \item $|P_n| = 14n + 10$, $|T_n| = 20n + 8$ and $1 \leq \norm{W_n} \leq 5$,
-    \item $\{q_b, q_c, q_f, q_s\} \subseteq P_n$, and
-    \item $\multiset{q_c, q_s} \trans{*} \vec{y}$ and $\vec{y}(q_f) >
-      0$ if and only if $\vec{y} = \multiset{q_c, q_f, q_b^{2^{2^n}}}$
+    \item $|P| = 14n + 10$, $|T| = 20n + 8$ and $1 \leq \norm{W} \leq 5$,
+    \item $\{q_B, q_C, q_F, q_S\} \subseteq P$, and
+    \item $\multiset{q_C, q_S} \trans{*} \vec{y}$ and $\vec{y}(q_F) >
+      0$ if and only if $\vec{y} = \multiset{q_C, q_F, q_B^{2^{2^n}}}$
       (by~\cite[Lemma~6 and~8]{MM82}).
   \end{enumerate}
 
-  Let $\PP_n = (Q_n, S_n, \{x\}, I_n, O_n)$ be the $5$-way population protocol
+  Let $\PP = (Q, S, \{x\}, I, O)$ be the $5$-way population protocol
   such that
   \begin{align*}
-    Q_n &\defeq P_n \cup \{q_\text{fresh}, q_\text{used}\}, \\
+    Q &\defeq P \cup \{q_X\}, \\
+    S &\defeq S' \cup \{q_F, r \mapsto q_F, q_F\} \\
     \Sigma &\defeq \{x\}, \\
-    S_n &\defeq S_n' \cup \{q_f, r \mapsto q_f, q_f : r \in Q_n\}, \\
-    I_n &\defeq x \mapsto q_\text{fresh}, \text{ and} \\
-    O_n &\defeq q_f \mapsto 1, r \mapsto 0 \text{ for every
-    } r \not= q_f.
+    I &\defeq \multiset{k \cdot x} \mapsto \multiset{k \cdot q_X,
+      q_C, q_S}, \text{ and} \\
+    O &\defeq r \mapsto 1 \text{ if } r = q_F \text{ otherwise } 0.
   \end{align*}
-  The subset of transitions $S_n'$ is obtained by making $T_n$ 5-way
-  with $q_\text{fresh}$ and $q_\text{used}$. For example, a transition
-  of $T_n$ which consumes a token from $p$ and $q$, and produces three
-  tokens into $r$, is replaced in $S_n'$ by the transition $(p, q,
-  q_\text{fresh}, q_\text{fresh}, q_\text{fresh}) \mapsto (r, r, r,
-  q_\text{used}, q_\text{used})$.
+  For every $t \in T$, let $\mathrm{pad}(t)$ be the transition
+  obtained by ``padding'' $t$ with interactions with $q_X$. For
+  example, for a transition $t \in T$ which consumes three tokens from
+  $p$, and produces a token into $q$ and $r$, we have $\mathrm{pad}(t)
+  = (p, p, p, q_X, q_X) \mapsto (q, r, q_X, q_X, q_X)$. We define the
+  remaining transitions of $\PP$ as $S' \defeq \{\mathrm{pad}(t) : t
+  \in T, q_F \not\in \pre{t}\}$. Intuitively, $\PP$ behaves as $\pn$,
+  except that agents in state $q_F$ remain in $q_F$ and can turn other
+  agents into state $q_F$.
 
-  Let us first show that $\PP_n$ is well-specified... Let $c \in \N$
-  be the smallest number such that $\PP$ stabilizes to true from
-  $\multiset{c \cdot x}$. We claim that $\PP_n$ computes the predicate
-  $x \geq c$... It remains to show that $c \geq
-  2^{2^n}$...\michael{Gaps to be filled.}
+  Let us prove that $\PP$ is well-specified. Let $C_0$ be an initial
+  configuration of $\PP$. Assume $C_0$ cannot reach a configuration
+  $C$ such that $C(q_F) > 0$. As $q_F$ is the only state with output
+  $1$, every fair execution from $C_0$ has output $0$. Now, assume
+  that $C_0$ can reach such a configuration $C$ and, for the sake of
+  contradiction, that there exists a fair execution $C_0 C_1 \cdots$
+  such that $C_0(q_F) = C_1(q_F) = \cdots = 0$. Since $\PP$ is
+  reversible over $\pop{Q \setminus \{q_F\}}$, we have $C_i \trans{*}
+  C_0 \trans{*} C$ for every $i \in \N$. This leads to a contradiction
+  since fairness ensures that $C_j = C$ for some $j \in \N$. Thus,
+  every fair execution from $C_0$ leads to a configuration that
+  contains $q_F$. Since, agents in state $q_F$ cannot be reverted and
+  can turn other agents into $q_F$, by fairness, every fair execution
+  from $C_0$ stabilizes to $1$.
+
+  For every $k \in \N$, let $D_k = I(\multiset{k \cdot x})$. Let $c
+  \in \N$ be the smallest number such that $O(D_c) = 1$. Such a $c$
+  exists by~(3). Moreover, we have $c \geq 2^{2^n}$ by~(3). Let $c'
+  \geq c$. Since $O(D_c) = 1$, $D_c \trans{*} C$ for some
+  configuration such that $C(q_F) > 0$. Note that $D_{c'} \geq
+  D_c$. Therefore, by monotonicity, there exists $C'$ such that
+  $D_{c'} \trans{*} C'$ and $C'(q_F) > 0$. This implies that
+  $O(D_{c'}) = 1$.
 \end{proof}
