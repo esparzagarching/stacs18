@@ -9,10 +9,22 @@
 Current notation:
 \begin{itemize}
   \item $\norm{\vec{x}}$ and $\norm{W}$ denote respectively the
-    largest absolute value that occurs in $\vec{x}$ and $W$.
+    largest absolute value that occurs in $\vec{x}$ and $W$;
 
   \item $\supp{\vec{x}} \defeq \{p \in P : \vec{x}(p) > 0\}$ and
-    $\supp{t_1 t_2 \cdots t_n} \defeq \{t_i : 1 \leq i \leq n\}$.
+    $\supp{t_1 t_2 \cdots t_n} \defeq \{t_i : 1 \leq i \leq n\}$;
+
+  \item $\pre{p} \defeq \{t \in T : W(t, p) > 0\}$ and $\post{p}
+    \defeq \{t \in T : W(p, t) > 0\}$;
+
+  \item $\pre{t} \defeq \{p \in P : W(p, t) > 0\}$ and $\post{t}
+    \defeq \{p \in P : W(t, p) > 0\}$.
+\end{itemize}
+Concepts to define:
+\begin{itemize}
+\item $k$-way protocols;
+\item ``agents-know'' protocols;
+\item ``leaders''.
 \end{itemize}
 
 \begin{proposition}\label{prop:short:saturation}
@@ -197,11 +209,11 @@ Current notation:
   \cdot 3^{1 / k}))^{k / (k + 1)} \leq |Q|$.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{thm:loglog:upperbound}
   For every $n \in \N$, there exist $c \geq 2^{2^n}$ and a 5-way
-  \michael{Turn 5-way into 2-way once we have a lemma for this.}
   ``agents know''-population protocol with two leaders that has $14n +
-  11$ states, and that computes the predicate $x \geq c$.
+  11$ states, has at most $34n + 19$ transitions, and computes the
+  predicate $x \geq c$.
 \end{theorem}
 
 \begin{proof}
@@ -260,4 +272,63 @@ Current notation:
   D_c$. Therefore, by monotonicity, there exists $C'$ such that
   $D_{c'} \trans{*} C'$ and $C'(q_F) > 0$. This implies that
   $O(D_{c'}) = 1$.
+\end{proof}
+
+\begin{corollary}
+  There exist a family $\mathcal{F} = \{\PP_n : n \in \N\}$ of
+  ``agents-know''-population protocols with leaders, and values $c_0,
+  c_1, \ldots \in \N$, such that for every $n \in \N$, $\PP_n$ has at
+  most $354 \log\log c_n + 201$ states and computes the predicate $x
+  \geq c_n$.
+\end{corollary}
+
+\begin{proof}
+  Let $n \in \N$. By Theorem~\ref{thm:loglog:upperbound}, there exist
+  $c \geq 2^{2^n}$ and a 5-way ``agents know''-population protocol
+  $\PP = (Q, T, \Sigma, I, O)$ with two leaders such that
+  \begin{itemize}
+    \item $|Q| = 14n + 11$,
+    \item $|T| \leq 34n + 19$,
+    \item $c \geq 2^{2^n}$,
+    \item $\PP$ computes the predicate $x \geq c$.
+  \end{itemize}
+  By Lemma~\ref{}, there exists a (2-way) ``agents know''-population
+  protocol $\PP' = (Q', T', \Sigma, I', O')$ with two leaders such
+  that
+  \begin{itemize}
+  \item $|Q'| = |Q| + 10 \cdot |T| \leq (14n + 11) + (340n + 190) =
+    354n + 201$,
+  \item $|T'| = 7 \cdot |T| \leq 238n + 133$ and
+  \item $\PP'$ computes the predicate $x \geq c$.
+  \end{itemize}
+  We take $\PP_n \defeq \PP'$ and $c_n \defeq c$. We are done since
+  $|Q'| \leq 354n + 201 \leq 354 \log\log c + 201$.
+\end{proof}
+
+\begin{theorem}
+  Let $\mathcal{F} = \{\PP_0, \PP_1, \ldots, \PP_c\}$ be a finite
+  family of population protocols such that $\PP_i$ computes the
+  predicate $x \geq i$ for every $0 \leq i \leq c$. There exists $0
+  \leq i \leq c$ such that $\PP_i$ has more than $\sqrt{\log_4 c}$
+  states.
+\end{theorem}
+
+\begin{proof}
+  For the sake of contradiction, assume that every protocol of
+  $\mathcal{F}$ has at most $\sqrt{\log_4 c}$ states. Let $d(m)$ be
+  the number of distinct population protocols with at most $m$
+  states. We have:
+  \begin{align*}
+    d(m)
+    &\leq \sum_{i = 1}^m i \cdot 2^{i \choose 2} \cdot i \cdot 2^i &
+    (\text{\# states} \cdot \text{\# transitions} \cdot \text{\# input
+      map.} \cdot \text{\# output map.}) \\
+    &\leq m \cdot 2^{m \choose 2} \cdot m \cdot 2^m \\
+    &= m^2 \cdot 2^{m(m - 1)/2 + m} \\
+    &\leq m^2 \cdot 2^{m^2} \\
+    &\leq 2^{2m^2} \\
+    &= 4^{m^2}.
+  \end{align*}
+  Therefore, $d(\sqrt{\log_4 c}) \leq c < |\mathcal{F}|$ which is a
+  contradiction.
 \end{proof}
