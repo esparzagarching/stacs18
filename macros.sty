@@ -20,8 +20,19 @@
 \newcommand{\mminus}{\mathbin{\varominus}}     %% Multiset difference
 \newcommand{\supp}[1]{\llbracket#1\rrbracket}  %% Support
 \renewcommand{\vec}[1]{\bm{#1}}                %% Bold vectors
+\newcommand{\norm}[1]{\lVert#1\rVert}          %% Norm
 
-%% Population protocols notation
+%% Population protocols
 \newcommand{\pop}[1]{\mathrm{Pop}(#1)}         %% Set of populations
 \newcommand{\PP}{\mathcal{P}}                  %% Population protocol name
 \newcommand{\trans}[1]{\xrightarrow{#1}}       %% Transition
+
+%% Petri nets
+\newcommand{\pn}{\mathcal{N}}                    %% Petri net name
+\newcommand{\pre}[1]{\ensuremath{{^\bullet #1}}} %% Place/transition preset
+\newcommand{\post}[1]{\ensuremath{{#1^\bullet}}} %% Place/transition postset
+\newcommand{\prepost}[1]{\ensuremath{{^\bullet {#1} ^\bullet}}} %% Pre+postset
+
+%% Theorems
+\theoremstyle{plain}                           %% To conform to LIPIcs style
+\newtheorem{proposition}[theorem]{Proposition} %% Missing in LIPIcs
