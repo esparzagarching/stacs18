@@ -93,7 +93,7 @@ $$q_1, q_2, \ldots, q_j \mapsto q_1', q_2', \ldots, q_j'
 	'active' states $A^t \defeq \set{a^t_{1}, \ldots, a^t_{{n-1}}}$ and 
 	'backwards' states $B^t \defeq \set{b^t_{2}, \ldots, b^t_{n-1}}$.
 
-	We replace $t$ by the following set of pairwise interactions $\delta'^t$:
+	We replace $t$ by the following set of pairwise interactions $\delta^t$:
 	\begin{align*}
 		q_1, q_2 & \revtrans  d^t_{1}, a^t_{2} \\
 		a^t_{l}, q^t_{l+1} & \revtrans  d^t_{l}, a^t_{l+1} \text{ for all } 2 \leq l \leq (n-2) \\
@@ -102,7 +102,7 @@ $$q_1, q_2, \ldots, q_j \mapsto q_1', q_2', \ldots, q_j'
 		d^t_1, b^t_2 & \mapsto r_1, r_2
 	\end{align*}
 	The $k$-way interaction defined by $t$ can be simulated through the following 
-	sequence of pairwise interactions from $\delta'^t$:
+	sequence of pairwise interactions from $\delta^t$:
 	\begin{align*}
 	 \multiset{q_1, \ldots, q_n} & \trans{} \multiset{d^t_1, a^t_2, q_3, \ldots, q_n} \\
 	                             & \trans{} \multiset{d^t_1, d^t_2, a_3, q_4, \ldots, q_n} \\
@@ -117,7 +117,7 @@ $$q_1, q_2, \ldots, q_j \mapsto q_1', q_2', \ldots, q_j'
 	Now let $\PP' =(Q', \delta', I, O')$ with
 	\begin{itemize}
 		\item $Q' \defeq Q \cup \bigcup_{t \in \delta} (D^t \cup A^t \cup B^t)$
-		\item $\delta' \defeq \bigcup_{t \in \delta} \delta'^t$
+		\item $\delta' \defeq \bigcup_{t \in \delta} \delta^t$
 		\item $O'(q) \defeq O(q)$ for all $q \in Q$.
 
 		      For all 
