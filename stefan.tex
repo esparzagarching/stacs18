@@ -88,10 +88,10 @@ $$q_1, q_2, \ldots, q_j \mapsto q_1', q_2', \ldots, q_j'
 	Let $k \geq 3$ and let $\PP = (Q, \delta, I, O)$ be a $k$-way protocol with 
 	transitions $\{t_1, \ldots, t_m\} = \delta$. 
 	For every transition $t$ in $\delta$ of the form 
-	$q_1, \ldots, q_j \mapsto r_1, \ldots, r_j$ where $j \geq 2$ 
-	we add 'disabled' states $D^t \defeq \set{d^t_{1}, \ldots d^t_{{j-2}}}$, 
-	'active' states $A^t \defeq \set{a^t_{1}, \ldots, a^t_{{j-1}}}$ and 
-	'backwards' states $B^t \defeq \set{b^t_{2}, \ldots, b^t_{j-1}}$.
+	$q_1, \ldots, q_n \mapsto r_1, \ldots, r_n$ where $n \geq 2$ 
+	we add 'disabled' states $D^t \defeq \set{d^t_{1}, \ldots d^t_{{n-2}}}$, 
+	'active' states $A^t \defeq \set{a^t_{1}, \ldots, a^t_{{n-1}}}$ and 
+	'backwards' states $B^t \defeq \set{b^t_{2}, \ldots, b^t_{n-1}}$.
 
 	We replace $t$ by the following set of pairwise interactions $\delta'^t$:
 	\begin{align*}
