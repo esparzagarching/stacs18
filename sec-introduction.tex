@@ -1,19 +1,154 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-maximus neque a blandit ultrices. Vestibulum ornare finibus metus nec
-hendrerit. Cras nec eros ut elit mattis hendrerit. Suspendisse
-vestibulum diam sit amet neque elementum, ut luctus est
-tristique. Mauris sollicitudin tincidunt quam id sagittis. Mauris
-fringilla commodo mi in luctus. Etiam id sem at ipsum sodales
-dignissim. Praesent volutpat, mauris in eleifend placerat, odio ligula
-ullamcorper arcu, et blandit tortor metus a tellus.
+Population protocols~\cite{AADFP04} are a model of distributed
+computation by anonymous, identical finite-state agents.  Initially
+introduced to model networks of passively mobile sensors
+in~\cite{AADFP04}, they also capture the essence of distributed
+computation in trust propagation or chemical reactions under the name
+of Chemical Reaction Networks, a model essentially equivalent to
+population protocols.
 
-Aliquam risus erat, semper quis velit ac, consequat vehicula
-quam. Integer molestie, justo id semper viverra, est risus volutpat
-mauris, rhoncus porttitor tellus velit dignissim ligula. Fusce arcu
-mauris, gravida eget dui at, euismod euismod arcu. Proin cursus
-facilisis tellus sollicitudin viverra. Aenean eget justo fermentum,
-imperdiet mauris nec, tincidunt nisl. Donec ex turpis, suscipit sit
-amet turpis id, suscipit porttitor eros. Cras faucibus, lorem eu
-sodales pulvinar, est dui interdum tellus, sed egestas nunc sem cursus
-mauris. Aenean malesuada nisi finibus ex porttitor
-tristique~\cite{AADFP04, AAE06, AAER07}.
+Since the agents executing a protocol are anonymous and identical, its
+global state---called a \emph{configuration}---is completely
+determined by the number of agents at each local state. In each
+computation step, a pair of agents, chosen by an adversary subject to
+a fairness condition stating that any continuously reachable
+configuration is eventually reached, interact and move to new states
+according to a joint transition function. In a closely related model,
+the adversary chooses the pair of agents uniformly at random.
+
+A protocol computes a boolean value for a given initial configuration
+if in all fair executions all agents eventually agree to this
+value---so, intuitively, population protocols compute by reaching
+consensus. Given a set of initial configurations, the predicate
+computed by a protocol is the function that assigns to each
+configuration $C$ the boolean value computed by the protocol starting
+from $C$.
+
+%% If the protocol does not reach consensus for some input, then we
+%% say it is ill specified and does not compute any predicate.
+
+Most research on population protocols has focused on their expressive
+power and their speed.  In a famous result, Angluin et al. have shown
+that predicates computable by population protocols are exactly the
+Presburger predicates, i.e., the predicates definable in Presburger
+arithmetic~\cite{AAER07}. The speed of a protocol, defined for the
+model with a randomized adversary, is the expected number of pairwise
+interactions until all agents have the correct output
+value. In~\cite{AAE08a} Angluin et al. showed that for every
+Presburger predicate $P$ there is a population protocol with a leader
+(essentially, protocols with one distinguished agent having a
+different set of states than the rest) that computes $P$ in
+$O(n \log^4 n)$ interactions in expectation, where $n$ is the number
+of agents of the initial configuration. Many other results provide
+lower and upper bounds for specific tasks, like electing a
+leader~\cite{DS15}, or specific protocols, like majority~\cite{AGV15}.
+
+In this paper we initiate the study of a third natural question: Given
+a protocol, which is the size of the smallest protocol that computes
+it? To the best of our knowledge, this problem has not been
+investigated so far (see the section below on related work).
+
+In order to introduce our results in the simplest possible setting, in
+the first part of the paper we concentrate on the size of protocols
+for the family of predicates $\{x \geq 0, x \geq 1, x \geq
+2 \}$. These protocols solve the well-known flock-of-birds problem, in
+which tiny sensors placed in birds have to reach consensus on whether
+the number of sick birds on the flock exceeds a given constant $c$.
+
+\medskip\noindent \textbf{Protocol size for the flock-of-birds
+  problem.} The standard protocol for the predicate $x \geq c$ is
+presented in many papers as a simple introductpry example. It has
+states $\{0, 1, \ldots, c\}$; states $\{0 , \ldots, c-1\}$ have output
+$0$, and state $c$ having output 1. Agents start at state $1$. The
+interactions ensure that all agents eventually reach state $c$ if{}f
+$x \leq c$ holds. They are $(x, y) \mapsto (\min\{x+y,c\}, 0)$ and
+$(c,y) \mapsto (c,c)$ for every $0 \leq x, y \leq c$.
+
+In a first, warm-up fase we exhibit a family of protocols which only
+have $O(\log c)$ states. More precisely, we prove:
+\begin{itemize}
+\item[(1)] There exists a family $\mathcal{F} = \{\PP_0, \PP_1,
+  \ldots, \}$ of population protocols such that $\PP_i$ has $O(\log_2
+  c)$ states and computes the predicate $x \geq i$.
+\end{itemize}
+We also give a lower bound:
+\begin{itemize}
+\item[(2)] For every $i \in \N$ and for every family $\mathcal{F} =
+  \{\PP_0, \PP_1, \ldots, \PP_c\}$ of population protocols: If $\PP_i$
+  computes the predicate $x \geq i$ for every $0 \leq i \leq c$, then
+  there exists $0 \leq i \leq c$ such that $\PP_i$ has more than
+  $\sqrt{\log_4 c}$ states.
+\end{itemize}
+However, this bound is only \emph{existential}: Given a concrete
+threshold $c$, it does not provide information on the minimal number
+of states of the protocols computing the predicate $x \geq c$
+itself. Moreover, since it follows from a simple counting argument
+(there are at most $c$ protocols with $\sqrt{\log_4 c}$ states), it
+does not provide any information on which is the index $i$ realizing
+the bound. Can we obtain universal bounds?
+
+We present universal bounds for \emph{consensus-aware} protocols. Both
+the standard protocol with $c+1$ states for the predicate $x \geq c$
+nd the family $\mathcal{F}$ described above have the following
+property: If the number of agents is greater than or equal to $c$,
+then the agents not only eventually reach consensus 1: they also
+eventually \emph{know} that they will reach this consensus. For
+example, it is easy to see that in the standard protocol any agent
+that reaches state $c$ knows that eventually all agents will reach it
+too. We say that these protocols are consensus-aware.
+
+We first prove that for \emph{leaderless} consensus-aware protocols
+there is a universal bound that essentially matches the upper bound
+given in (1):
+\begin{itemize}
+\item[(3)] Every leaderless, consensus-aware population protocol that
+  computes the predicate $x \geq c$ has at least $\log_3 c$ states.
+\end{itemize}
+Can this bound be extended to protocols with a leader? Our most
+surprising results prove that this is not the case: For certain values
+of $c$ there are protocols with $O(\log \log c)$ states. Further, this
+upper bound is close to optimal:
+\begin{itemize}
+\item[(4)]There exists a family $\mathcal{F} = \{\PP_n : n \in \N\}$
+  of consensus-aware population protocols with leader, and values
+  $c_0, c_1, \ldots \in \N$, such that $\PP_n$ has $O(\log\log c_n)$
+  states and computes the predicate $x \geq c_n$ for every $n \in \N$.
+\item[(5)] Every consensus-aware protocol (leaderless or not) that
+  computes the predicate $x \geq c$ has at least $\sqrt{\log \log(c /
+    2)}$ states.
+\end{itemize}
+
+\medskip\noindent \textbf{Protocols for quantifier-free Presburger
+  arithmetic.} In the second half of the paper we present results
+valid for any predicate expressible in quantifier-free Presburger
+arithmetic. The size of a formula depends on the size of the numbers
+occurring in it, and on its ``skeleton'', the length of the formula
+when numbers are replaced by formal parameters. We give protocols
+whose number of states is a polylogarithmic function of the numbers
+appearing in a formula. The key result is a subtle protocol for
+threshold predicates of the form $\sum_{i=1}^n a_i x_i \geq c$, where
+$a_i \in \Z$ for every $1 \leq i \leq n$ of size GUESS $O(
+\sum_{i=1}^n \log|a_i|^{?} )$.
+
+\medskip\noindent \textbf{Related work.} The minimal number of states
+has been determined for some specific predicates, like the majority
+predicate $x \geq y$, which is proved to require at least 4 states in
+\cite{}.  Our results are for families of protocols. There is also
+recent work on the trade-off of the speed of a population protocol and
+its number of states~\cite{AAEGR17}. However, these results are
+achieved for a different model in which the number of states of an
+agent is not constant, but a function of the number of agents. In
+other words, while in the standard model a protocol with a fixed
+number of states computes the predicate for all possible inputs, in
+this model the predicate is computed by an infinite failiy of
+protocols, one for each possible input.
+
+
+\medskip\noindent \textbf{Structure of the paper.} In Section~\ref{}
+we introduce basic definitions. Section~\ref{} presents a construction
+we use thorughout the paper. Section~\ref{} presents our results for
+the flock-of-birds predicates. Section~\ref{} sketches how to extend
+
+%% showing that $k$-way protocols, i.e., a generalization of the standard
+%% mode in which interactions can involve$2, 3, \ldots, k$ processes can
+%% be simulated by the standard 2-way protocols with very low blow-up in
+%% the number of states.
