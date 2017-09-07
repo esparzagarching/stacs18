@@ -27,13 +27,13 @@ from $C$.
 %% say it is ill specified and does not compute any predicate.
 
 Most research on population protocols has focused on their expressive
-power and their speed.  In a famous result, Angluin et al. have shown
+power and their speed.  In a famous result, Angluin et al.\ have shown
 that predicates computable by population protocols are exactly the
 Presburger predicates, i.e., the predicates definable in Presburger
 arithmetic~\cite{AAER07}. The speed of a protocol, defined for the
 model with a randomized adversary, is the expected number of pairwise
 interactions until all agents have the correct output
-value. In~\cite{AAE08a} Angluin et al. showed that for every
+value. In~\cite{AAE08a}, Angluin et al.\ showed that for every
 Presburger predicate $P$ there is a population protocol with a leader
 (essentially, protocols with one distinguished agent having a
 different set of states than the rest) that computes $P$ in
@@ -56,14 +56,14 @@ the number of sick birds on the flock exceeds a given constant $c$.
 
 \medskip\noindent \textbf{Protocol size for the flock-of-birds
   problem.} The standard protocol for the predicate $x \geq c$ is
-presented in many papers as a simple introductpry example. It has
+presented in many papers as a simple introductory example. It has
 states $\{0, 1, \ldots, c\}$; states $\{0 , \ldots, c-1\}$ have output
 $0$, and state $c$ having output 1. Agents start at state $1$. The
 interactions ensure that all agents eventually reach state $c$ if{}f
 $x \leq c$ holds. They are $(x, y) \mapsto (\min\{x+y,c\}, 0)$ and
 $(c,y) \mapsto (c,c)$ for every $0 \leq x, y \leq c$.
 
-In a first, warm-up fase we exhibit a family of protocols which only
+In a first, warm-up phase we exhibit a family of protocols which only
 have $O(\log c)$ states. More precisely, we prove:
 \begin{itemize}
 \item[(1)] There exists a family $\mathcal{F} = \{\PP_0, \PP_1,
@@ -139,14 +139,14 @@ achieved for a different model in which the number of states of an
 agent is not constant, but a function of the number of agents. In
 other words, while in the standard model a protocol with a fixed
 number of states computes the predicate for all possible inputs, in
-this model the predicate is computed by an infinite failiy of
+this model the predicate is computed by an infinite familiy of
 protocols, one for each possible input.
 
 
 \medskip\noindent \textbf{Structure of the paper.} In Section~\ref{}
 we introduce basic definitions. Section~\ref{} presents a construction
 we use thorughout the paper. Section~\ref{} presents our results for
-the flock-of-birds predicates. Section~\ref{} sketches how to extend
+the flock-of-birds predicates. Section~\ref{} sketches how to extend...
 
 %% showing that $k$-way protocols, i.e., a generalization of the standard
 %% mode in which interactions can involve$2, 3, \ldots, k$ processes can
