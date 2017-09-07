@@ -117,17 +117,14 @@ upper bound is close to optimal:
     2)}$ states.
 \end{itemize}
 
-\medskip\noindent \textbf{Protocols for quantifier-free Presburger
-  arithmetic.} In the second half of the paper we present results
-valid for any predicate expressible in quantifier-free Presburger
-arithmetic. The size of a formula depends on the size of the numbers
-occurring in it, and on its ``skeleton'', the length of the formula
-when numbers are replaced by formal parameters. We give protocols
-whose number of states is a polylogarithmic function of the numbers
-appearing in a formula. The key result is a subtle protocol for
-threshold predicates of the form $\sum_{i=1}^n a_i x_i \geq c$, where
-$a_i \in \Z$ for every $1 \leq i \leq n$ of size GUESS $O(
-\sum_{i=1}^n \log|a_i|^{?} )$.
+\medskip\noindent \textbf{Protocols for quantifier-free Presburger arithmetic.} In the second half of the paper we extend the results above to other predicates. It is well known that every Presburger predicate is equal to a boolean combination of predicates of the form $\sum_{i=1}^n a_i x_i \geq c$ (threshold predicates)  or $\sum_{i=1}^n a_i x_i \equiv b \mod c$ (remainder predicates), where $a_i \in \Z$ for every $1 \leq i \leq n$, $c \in \N$, and $b \in [0..c]$. We obtain the following generalizations of (1):
+\begin{itemize}
+\item[(6)] Every threshold predicate $\sum_{i=1}^n a_i x_i \geq c$ or  $\sum_{i=1}^n a_i x_i \equiv b \mod c$ is computed by a protocol with leader having $O( \log(\max{|a_1|, \ldots, |a_n|, |b|}))$ states and interactions.
+\item[(7)] Every remainder predicate $\sum_{i=1}^n a_i x_i \geq c$ or  $\sum_{i=1}^n a_i x_i \equiv b \mod c$ is computed by a leaderless protocol  having $O( \log^n(\max{|a_1|, \ldots, |a_n|, |b|}))$ states and interactions.
+\end{itemize}
+Loosely speaking, these results prove that for every booelan combination as above there is a protocol whose number of states and interactions is polylogarithmic in the size of the coefficients. We also obtain a similar generalization for result (2).
+
+
 
 \medskip\noindent \textbf{Related work.} The minimal number of states
 has been determined for some specific predicates, like the majority
